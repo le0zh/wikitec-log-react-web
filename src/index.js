@@ -1,17 +1,14 @@
 import React from 'react'
-import ReactDom from 'react-dom'
-import { Provider } from 'react-redux'
+import { render } from 'react-dom'
+import { browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+import Root from './containers/Root'
 import configureStore from './store/configureStore'
 
-//这里注入provider
-//日志app
-import App from './route'
+const store = configureStore()
+const history = syncHistoryWithStore(browserHistory, store)
 
-const store = configureStore();
-
-ReactDom.render(
-	<Provider store={store}>
-		<App />
-	</Provider>, 
+render(
+	<Root store={store} history={history} />,
 	document.getElementById('react-content')
-);
+)

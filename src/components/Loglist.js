@@ -53,11 +53,14 @@ const pagination = {
 	}
 };
 
-export default class App extends React.Component {
+export default class Loglist extends React.Component {
+
 	componentDidMount() {
 		let { actions } = this.props;
-		var test = 'aaa';
+		console.log(actions);
+		actions.fetchLogs({ subSystem: 'all', page: 1 });
 	}
+
 	render() {
 		return (
 			<Table columns={columns} dataSource={data} pagination={pagination} />

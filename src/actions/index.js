@@ -3,13 +3,10 @@
  */
 
 import fetch from 'isomorphic-fetch'
-import KeyMirror from 'keyMirror'
 
-export default KeyMirror({
-	REQUEST_LOGS: null,
-	RECEIVE_LOGS: null,
-	SELECT_LOG: null
-});
+export const REQUEST_LOGS = 'REQUEST_LOGS';
+export const RECEIVE_LOGS = 'RECEIVE_LOGS';
+export const SELECT_LOG = 'SELECT_LOG';
 
 const API_BASE = 'http://42.96.171.42:9001/api';
 
@@ -20,7 +17,7 @@ const API_BASE = 'http://42.96.171.42:9001/api';
  */
 export function selectLog(logId) {
 	return {
-		type: SELECT_LOG.
+		type: SELECT_LOG,
 		logId
 	}
 }
@@ -45,12 +42,14 @@ function receiveLogs(filter, json) {
  * 一个异步的action creator
  */
 export function fetchLogs(filter) {
+	console.log("start action, fetchLogs", filter);
+
 	return dispatch => {
 		//开始请求
 		dispatch(requestLogs(filter));
 
-		const { subsytem, page } = filter;
-		return fetch(`${API_BASE}/${subsytem}/${page}`)
+		const { subSystem, page } = filter;
+		return fetch(`${API_BASE}/logs/${subSystem}/${page}`)
 			.then(response => response.json())
 			.then(json => receiveLogs(filter, json))
 	};

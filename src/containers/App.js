@@ -1,4 +1,4 @@
-import React, {	Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -6,9 +6,14 @@ import '../components/layout.style.css'
 
 import SiderMenu from '../components/SiderMenu'
 import Topbar from '../components/Topbar'
-import * as actionCreators  from '../actions'
+import * as actionCreators from '../actions'
 
 class App extends React.Component {
+
+	componentDidMount() {
+
+	}
+
 	render() {
 		return (
 			<div>
@@ -33,7 +38,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(actionCreators, dispatch) };
+	return { actions: bindActionCreators(actionCreators, dispatch) };
 }
 
 //注入全局 state并把所有 action creator 作为 actions 属性也注入组件中

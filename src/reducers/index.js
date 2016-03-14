@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux'
+import { routerReducer as routing } from 'react-router-redux'
+
 import { REQUEST_LOGS, RECEIVE_LOGS, SELECT_LOG } from '../actions'
 
 function selectedLog(state = { subSystem: 'all', page: 1 }, action) {
@@ -29,7 +31,8 @@ function logs(state = { isFetching: false, pagedResult: {} }, action) {
 
 const rootReducer = combineReducers({
 	logs,
-	selectedLog
+	selectedLog,
+	routing
 });
 
 export default rootReducer;
