@@ -186,7 +186,7 @@ li.topbar-info-btn {
  * 左侧菜单容器样式
  */
 .viewFramework-sidebar{
-	width: 180px;
+	width: 200px;
     display: block;
     position: fixed;
     top: 50px;
@@ -202,7 +202,7 @@ li.topbar-info-btn {
     width: auto;
     position: absolute;
     top: 0px;
-    left: 180px;
+    left: 200px;
     bottom: 0px;
     right: 0px;
     overflow: hidden;
@@ -224,5 +224,10 @@ li.topbar-info-btn {
     -webkit-transition: all 0.2s ease;
 }
 .console-container {
-    padding: 0 15px;
+    padding: 15px;
+}
+
+/*给选中的菜单加背景颜色*/
+.ant-menu-item-selected{
+    background: #eaf8fe;
 }

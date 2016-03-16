@@ -3,7 +3,7 @@ import { routerReducer as routing } from 'react-router-redux'
 
 import { REQUEST_LOGS, RECEIVE_LOGS, SELECT_LOG } from '../actions'
 
-function selectedLog(state = { subSystem: 'all', page: 1 }, action) {
+function selectedLog(state = {}, action) {
 	switch (action.type) {
 		case SELECT_LOG:
 			return action.log;
@@ -12,7 +12,7 @@ function selectedLog(state = { subSystem: 'all', page: 1 }, action) {
 	}
 }
 
-function logs(state = { isFetching: false, pagedResult: {} }, action) {
+function logs(state = { subSystem: 'all', page: 1, isFetching: false, pagedResult: {} }, action) {
 	switch (action.type) {
 		case REQUEST_LOGS:
 			return Object.assign({}, state, {

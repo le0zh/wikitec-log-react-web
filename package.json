@@ -33,6 +33,9 @@
   },
   "dependencies": {
     "antd": "^0.12.4",
+    "babel-polyfill": "^6.7.2",
+    "fetch-detector": "^1.0.0",
+    "fetch-ie8": "^1.4.2",
     "isomorphic-fetch": "^2.2.1",
     "keymirror": "^0.1.1",
     "react": "^0.14.7",

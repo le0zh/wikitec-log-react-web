@@ -1,8 +1,13 @@
 /**
- * Action Creators
+ * 这里保存了action creators和constants
+ * 还有一种方案是，将constants单独抽出来一个文件
  */
 
-import fetch from 'isomorphic-fetch'
+//isomorphic-fetch存在中文乱码的问题
+//import fetch from 'isomorphic-fetch'
+
+import 'fetch-detector'
+import 'fetch-ie8'
 
 export const REQUEST_LOGS = 'REQUEST_LOGS';
 export const RECEIVE_LOGS = 'RECEIVE_LOGS';
@@ -51,6 +56,6 @@ export function fetchLogs(filter) {
 		const { subSystem, page } = filter;
 		return fetch(`${API_BASE}/logs/${subSystem}/${page}`)
 			.then(response => response.json())
-			.then(json => receiveLogs(filter, json))
+			.then(json => dispatch(receiveLogs(filter, json)))
 	};
 }

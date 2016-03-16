@@ -20,6 +20,7 @@ class App extends React.Component {
 				<Topbar />
 				<div className={'viewFramework-body'}>
 					<SiderMenu styleName={'viewFramework-sidebar'} />
+					
 					<div className={'viewFramework-product'}>
 						<div className={'viewFramework-product-body'}>
 							<div className={'console-container'}>
@@ -31,6 +32,11 @@ class App extends React.Component {
 			</div>
 		);
 	}
+}
+
+App.propTypes = {
+	// Injected by React Router
+	children: PropTypes.node
 }
 
 function mapStateToProps(state) {

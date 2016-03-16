@@ -13,6 +13,7 @@ export default class Topbar extends Component{
 	}
 
 	handleSignOut(e){
+		alert('退出');
 		console.log('退出');
 	}
 
@@ -24,7 +25,7 @@ export default class Topbar extends Component{
 				</div>
 
 				<div className={'topbar-nav topbar-left'}>
-					<a href="#" className={'topbar-home-link topbar-btn topbar-left border-right'}>系统日志</a>
+					<a href="#" className={'topbar-home-link topbar-btn topbar-left border-right'}>天益明康 系统日志</a>
 				</div>
 
 				<div className={'topbar-info topbar-right topbar-clearfix'}>
@@ -34,13 +35,13 @@ export default class Topbar extends Component{
 					<div className={'topbar-btn topbar-left border-left'}>
 						<Icon type="mobile" /> 手机版
 					</div>
-					<div className={'topbar-btn topbar-left border-left'}>
+					{/*<div className={'topbar-btn topbar-left border-left'}>
 						<DropDownMenu title={<span><Icon type="question-circle-o" /> 帮助与文档</span>}>
 							<DropDownMenu.Item title={'帮助与文档'} url={'http://www.baidu.com'}/>
 							<DropDownMenu.Item title={'论坛'} url={'http://www.baidu.com'} />
 							<DropDownMenu.Item title={'博客'} url={'http://www.baidu.com'} />
 						</DropDownMenu>
-					</div>
+					</div>*/}
 					<div className={'topbar-btn topbar-left border-left'}>
 						<DropDownMenu title={<span>admin@wikitec.com</span>}>
 							<DropDownMenu.Item title={'修改密码'} onClick={(e)=>this.handleChangePassword(e)} />

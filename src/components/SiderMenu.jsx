@@ -1,5 +1,9 @@
 import React, {Component ,PropTypes} from 'react'
 import { Menu, Icon } from 'antd';
+import { Link, browserHistory  } from 'react-router'
+
+import {VCAN_SYS, WIKI_SYS} from '../common/constants'
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -7,60 +11,76 @@ export default class SiderMenu extends Component{
 	constructor(){
 		super();
 		this.state = {
-			current: '1',
-			theme: 'light'
+			current: 'crm',
+			theme: 'light',
+			openKeys: []
 		};
 	}
 
 	handleClick(e) {
-		console.log('click ', e);
+		console.log(e.keyPath);
 		this.setState({
-			current: e.key
+			current: e.key,
+			openKeys: e.keyPath.slice(1)
 		});
+
+		//var currentRouteName = this.context.router.getCurrentPathname();
+		//https://github.com/reactjs/react-router-tutorial/blob/start/lessons%2F12-navigating.md
+		//用这个判断是否激活！！！
+		console.log(this.context.router);
+		var isActive =this.context.router.isActive('/logs/crm');
+		console.log(isActive);
+
+		if(e.key !== 'overview'){
+			const path = `/logs/${e.key}`;
+    	//browserHistory.push(path);
+		}
 	}
+
+	onToggle(info) {
+    this.setState({
+      openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+    });
+  }
 
 	render() {
 		return (
 			<Menu onClick={(e)=>this.handleClick(e)}
 				theme={this.state.theme}
-				style={{ width: 180 }}
+				style={{ width: 200 }}
+				openKeys={this.state.openKeys}
+        onOpen={this.onToggle.bind(this)}
+        onClose={this.onToggle.bind(this)}
 				className = {'viewFramework-sidebar'}
-				defaultOpenKeys={['sub1']}
 				selectedKeys={[this.state.current]}
 				mode="inline">
-				<SubMenu key="sub1" title={<span><Icon type="mail" /><span>导航一</span></span>}>
-					<MenuItemGroup title="分组1">
-						<Menu.Item key="1">选项1</Menu.Item>
-						<Menu.Item key="2">选项2</Menu.Item>
-					</MenuItemGroup>
-					<MenuItemGroup title="分组2">
-						<Menu.Item key="3">选项3</Menu.Item>
-						<Menu.Item key="4">选项4</Menu.Item>
-					</MenuItemGroup>
+				<Menu.Item key="overview">
+					<Link to="/">{<span><Icon type="eye-o" /><span>概览</span></span>}</Link>
+				</Menu.Item>
+
+				<SubMenu key="vcan_sys" title={<span><Icon type="appstore" /><span>集团系统</span></span>}>
+					{VCAN_SYS.map(sys=>{
+						return (
+							<Menu.Item key={sys.key}>
+								<Link to={`/logs/${sys.key}`}>{sys.name}</Link>
+							</Menu.Item>
+						) 
+					})}
 				</SubMenu>
-				<SubMenu key="sub2" title={<span><Icon type="appstore" /><span>导航二</span></span>}>
-					<Menu.Item key="5">选项5</Menu.Item>
-					<Menu.Item key="6">选项6</Menu.Item>
-					<SubMenu key="sub3" title="三级导航">
-						<Menu.Item key="7">选项7</Menu.Item>
-						<Menu.Item key="8">选项8</Menu.Item>
-					</SubMenu>
-				</SubMenu>
-				<SubMenu key="sub4" title={<span><Icon type="setting" /><span>导航三</span></span>}>
-					<Menu.Item key="9">选项9</Menu.Item>
-					<Menu.Item key="10">选项10</Menu.Item>
-					<Menu.Item key="11">选项11</Menu.Item>
-					<Menu.Item key="12">选项12</Menu.Item>
-					<Menu.Item key="13">选项13</Menu.Item>
-					<Menu.Item key="14">选项14</Menu.Item>
-					<Menu.Item key="15">选项15</Menu.Item>
-					<Menu.Item key="16">选项16</Menu.Item>
+
+				<SubMenu key="wiki_sys" title={<span><Icon type="cloud-o" /><span>管万家</span></span>}>
+					{WIKI_SYS.map(sys=>{
+						return <Menu.Item key={sys.key}>{sys.name}</Menu.Item>
+					})}
 				</SubMenu>
 			</Menu>
 		);
 	}
 }
 
+SiderMenu.contextTypes = {
+  router: React.PropTypes.object
+};
 SiderMenu.defaultProps = {
 	styleName: ''
 };

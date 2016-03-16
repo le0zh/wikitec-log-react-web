@@ -1,69 +1,95 @@
-import React from 'react'
-import { Table, Icon } from 'antd'
+/**
+ * 展示组件
+ * 位置:	中间和子组件
+ * 使用Redux:	否
+ * 读取数据:	从 props 获取数据
+ * 修改数据: 从 props 调用回调函数
+ * 不直接使用redux
+ */
+import React, { Component, PropTypes } from 'react'
+import { Table, Icon, Button, Tag } from 'antd'
 
 const columns = [{
-	title: '姓名',
-	dataIndex: 'name',
-	render(text) {
-		return <a href="#">{text}</a>;
-	}
+	title: '系统',
+	dataIndex: 'systemAlias',
+	key: 'systemAlias'
 }, {
-	title: '年龄',
-	dataIndex: 'age'
+	title: '消息',
+	dataIndex: 'message',
+	key: 'message'
 }, {
-	title: '住址',
-	dataIndex: 'address'
+	title: '时间',
+	dataIndex: 'time',
+	key: 'time'
 }, {
 	title: '操作',
-	key: 'operation',
-	render(text, record) {
-		return (
-			<span>
-					<a href="#">操作一{record.name}</a>
-					<span className="ant-divider"></span>
-					<a href="#">操作二</a>
-					<span className="ant-divider"></span>
-					<a href="#" className="ant-dropdown-link">
-						更多 <Icon type="down" />
-					</a>
-				</span>
-		);
-	}
+	render() {
+		return <a href="#">详细信息</a>;
+	},
+	key: 'operation'
 }];
 
-const data = [];
-for (let i = 0; i < 46; i++) {
-	data.push({
-		key: i,
-		name: `李大嘴${i}`,
-		age: 32,
-		address: `西湖区湖底公园${i}号`
-	});
-}
-
+//分页信息
 const pagination = {
-	total: data.length,
-	current: 1,
-	showSizeChanger: true,
-	onShowSizeChange(current, pageSize) {
-		console.log('Current: ', current, '; PageSize: ', pageSize);
-	},
-	onChange(current) {
-		console.log('Current: ', current);
-	}
+	total: 0, //总的记录数
+	current: 1, //当前页码
+	showSizeChanger: false, //是否可以切换每页条数
+	// onShowSizeChange(current, pageSize) {
+	// 	console.log('Current: ', current, '; PageSize: ', pageSize);
+	// },
+	// onChange(current) {
+	// 	console.log('Current: ', current);
+	// }
 };
 
-export default class Loglist extends React.Component {
+export default class Loglist extends Component {
+	constructor() {
+		super();
+
+		this.state = {
+			isLoading: true
+		}
+	}
 
 	componentDidMount() {
-		let { actions } = this.props;
-		console.log(actions);
-		actions.fetchLogs({ subSystem: 'all', page: 1 });
+		pagination.onChange = this.props.handlePageChange;
+	}
+
+	componentWillReceiveProps(nextProps) {
+		//直接给table的loading赋值不行
+		if (nextProps.logs.isFetching == false) {
+			this.setState({
+				isLoading: false
+			});
+		}
 	}
 
 	render() {
+		const { logs } = this.props;
+		const { pagedResult } = logs;
+
+		console.log(pagedResult);
+
+		pagination.total = pagedResult.recordCount;
+		pagination.current = pagedResult.pageIndex;
+
 		return (
-			<Table columns={columns} dataSource={data} pagination={pagination} />
+			<div>
+				<Tag color="blue">今日: {pagedResult.todayCount}</Tag>
+				<Tag color="yellow">总数: {pagedResult.recordCount}</Tag>
+				<Table
+					columns={columns}
+					rowKey={record => record.id}
+					loading={this.state.isLoading}
+					pagination={pagination}
+					dataSource={this.props.logs.pagedResult.list}
+				/>
+			</div>
 		);
 	}
+}
+
+Loglist.propTypes = {
+	logs: PropTypes.object.isRequired,
+	handlePageChange: PropTypes.func.isRequired
 }
