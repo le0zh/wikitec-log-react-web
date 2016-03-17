@@ -22,6 +22,12 @@ export const REQUEST_LOG_DETAIL = 'REQUEST_LOG_DETAIL';
 export const RECEIVE_LOG_DETAIL = 'RECEIVE_LOG_DETAIL';
 
 /**
+ * 概况相关action
+ */
+export const REQUEST_SUMMARY = 'REQUEST_SUMMARY';
+export const RECEIVE_SUMMARY = 'RECEIVE_SUMMARY';
+
+/**
  * api跟路径
  */
 const API_BASE = 'http://42.96.171.42:9001/api';

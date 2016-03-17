@@ -11,10 +11,12 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import OverView from '../components/Overview'
+
 class OverivewPage extends Component {
 	render() {
 		return (
-			<h2 className="page-title">概览</h2>
+			<OverView></OverView>
 		)
 	}
 }

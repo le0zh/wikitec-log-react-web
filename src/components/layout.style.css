@@ -258,3 +258,17 @@ li.topbar-info-btn {
     line-height: 22px;
     word-break: break-word;
 }
+
+.summary-block{
+    width: 160px;
+    height: 70px;
+    border: 1px solid #e7f6e1;
+    border-radius: 6px;
+    background: #f3faf0;
+    padding:10px;    
+}
+
+.summary-number{
+    font-size:14px;
+    line-height: 30px;
+}

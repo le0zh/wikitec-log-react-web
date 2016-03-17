@@ -1,5 +1,5 @@
 /**
- * 展示组件
+ * 展示组件: 日志详情
  * 位置:	中间和子组件
  * 使用Redux:	否
  * 读取数据:	从 props 获取数据
@@ -33,7 +33,7 @@ export default class LogDetail extends Component {
 				<Spin spining={isFetching}>
 					<Row type="flex" justify="start">
 						<Col span="4"><h3 className="item-title">系统: {log.systemAlias}</h3></Col>
-						<Col span="4"><h3 className="item-title">时间: {log.time}</h3></Col>
+						<Col span="8"><h3 className="item-title">时间: {log.time}</h3></Col>
 					</Row>
 					<div className="log-detail-message">
 						{logMessages.map( (message,index) => <p key={index}>{message}</p>)}
