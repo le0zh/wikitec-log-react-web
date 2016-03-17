@@ -47,8 +47,6 @@ function receiveLogs(filter, json) {
  * 一个异步的action creator
  */
 export function fetchLogs(filter) {
-	console.log("start action, fetchLogs", filter);
-
 	return dispatch => {
 		//开始请求
 		dispatch(requestLogs(filter));

@@ -16,6 +16,8 @@ function logs(state = { subSystem: 'all', page: 1, isFetching: false, pagedResul
 	switch (action.type) {
 		case REQUEST_LOGS:
 			return Object.assign({}, state, {
+				subSystem: action.filter.subSystem,
+				page: action.filter.page,
 				isFetching: true
 			});
 		case RECEIVE_LOGS:

@@ -1,24 +1,64 @@
 import React, {Component ,PropTypes} from 'react'
 import { Menu, Icon } from 'antd';
-import { Link, browserHistory  } from 'react-router'
 
 import {VCAN_SYS, WIKI_SYS} from '../common/constants'
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
+/**
+ * 检查菜单激活情况，根据当前的路由path
+ * @param  {[type]} router [description]
+ */
+function checkActive(router) {
+	const openKeys = [];
+	let current = '';
+
+	if(router.isActive('/')){
+		current = 'overview';
+		openKeys.push('overview');
+	}
+
+	const logsPagePrefix = 'logs';
+
+	VCAN_SYS.forEach(menu=>{
+		if(router.isActive(`/${logsPagePrefix}/${menu.key}`)){
+			openKeys.push('vcan_sys');
+			current = menu.key;
+		}
+	});
+
+	WIKI_SYS.forEach(menu=>{
+		if(router.isActive(`/${logsPagePrefix}/${menu.key}`)){
+			openKeys.push('wiki_sys');
+			current = menu.key;
+		}
+	});
+
+	return {current, openKeys};
+}
+
 export default class SiderMenu extends Component{
 	constructor(){
 		super();
+
 		this.state = {
-			current: 'crm',
+			current: '',
 			theme: 'light',
 			openKeys: []
 		};
 	}
 
+	componentDidMount(){
+		var {current, openKeys} = checkActive(this.context.router);
+		this.setState({
+			current: current,
+			theme: 'light',
+			openKeys: openKeys
+		});
+	}
+
 	handleClick(e) {
-		console.log(e.keyPath);
 		this.setState({
 			current: e.key,
 			openKeys: e.keyPath.slice(1)
@@ -27,13 +67,13 @@ export default class SiderMenu extends Component{
 		//var currentRouteName = this.context.router.getCurrentPathname();
 		//https://github.com/reactjs/react-router-tutorial/blob/start/lessons%2F12-navigating.md
 		//用这个判断是否激活！！！
-		console.log(this.context.router);
-		var isActive =this.context.router.isActive('/logs/crm');
-		console.log(isActive);
+		//console.log(this.context.router);
+		//var isActive =this.context.router.isActive('/logs/crm');
+		//console.log(isActive);
 
 		if(e.key !== 'overview'){
 			const path = `/logs/${e.key}`;
-    	//browserHistory.push(path);
+    	this.context.router.push(path);
 		}
 	}
 
@@ -54,17 +94,11 @@ export default class SiderMenu extends Component{
 				className = {'viewFramework-sidebar'}
 				selectedKeys={[this.state.current]}
 				mode="inline">
-				<Menu.Item key="overview">
-					<Link to="/">{<span><Icon type="eye-o" /><span>概览</span></span>}</Link>
-				</Menu.Item>
+				<Menu.Item key="overview">{<span><Icon type="eye-o" /><span>概览</span></span>}</Menu.Item>
 
 				<SubMenu key="vcan_sys" title={<span><Icon type="appstore" /><span>集团系统</span></span>}>
 					{VCAN_SYS.map(sys=>{
-						return (
-							<Menu.Item key={sys.key}>
-								<Link to={`/logs/${sys.key}`}>{sys.name}</Link>
-							</Menu.Item>
-						) 
+						return <Menu.Item key={sys.key}>{sys.name}</Menu.Item>
 					})}
 				</SubMenu>
 

@@ -10,9 +10,10 @@ import React, { Component, PropTypes } from 'react'
 import { Table, Icon, Button, Tag } from 'antd'
 
 const columns = [{
-	title: '系统',
+	title: '系统key',
 	dataIndex: 'systemAlias',
-	key: 'systemAlias'
+	key: 'systemAlias',
+	width: 90
 }, {
 	title: '消息',
 	dataIndex: 'message',
@@ -20,13 +21,15 @@ const columns = [{
 }, {
 	title: '时间',
 	dataIndex: 'time',
-	key: 'time'
+	key: 'time',
+	width: 80
 }, {
 	title: '操作',
 	render() {
 		return <a href="#">详细信息</a>;
 	},
-	key: 'operation'
+	key: 'operation',
+	width: 80
 }];
 
 //分页信息
@@ -67,8 +70,6 @@ export default class Loglist extends Component {
 	render() {
 		const { logs } = this.props;
 		const { pagedResult } = logs;
-
-		console.log(pagedResult);
 
 		pagination.total = pagedResult.recordCount;
 		pagination.current = pagedResult.pageIndex;
