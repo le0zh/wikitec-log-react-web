@@ -71,10 +71,12 @@ export default class SiderMenu extends Component{
 		//var isActive =this.context.router.isActive('/logs/crm');
 		//console.log(isActive);
 
+		//router api: https://github.com/reactjs/react-router/blob/master/docs/API.md#contextrouter
+		let path = '/';
 		if(e.key !== 'overview'){
-			const path = `/logs/${e.key}`;
-    	this.context.router.push(path);
+			path = `/logs/${e.key}`;
 		}
+		this.context.router.push(path);
 	}
 
 	onToggle(info) {

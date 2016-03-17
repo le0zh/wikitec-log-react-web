@@ -1,5 +1,5 @@
 /**
- * 容器组件
+ * 容器组件: 日志列表页面
  * 位置:	最顶层，路由处理
  * 使用: Redux	是
  * 读取数据:	从 Redux 获取 state
@@ -13,10 +13,12 @@ import { connect } from 'react-redux'
 import LogList from '../components/LogList'
 import * as actionCreators from '../actions'
 
-function loadData(props) {
-	const { actions } = props;
+function loadData(props, refresh) {
+	const { actions, logs } = props;
 	const sysFilter = props.params.subSystem || 'all';
-	actions.fetchLogs({ subSystem: sysFilter, page: 1 });
+	const page = refresh ? 1 : logs.page;
+
+	actions.fetchLogs({ subSystem: sysFilter, page: page });
 }
 
 class LogListPage extends Component {
@@ -31,7 +33,7 @@ class LogListPage extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.params.subSystem !== this.props.params.subSystem) {
-			loadData(nextProps);
+			loadData(nextProps, true);
 		}
 	}
 
@@ -49,7 +51,7 @@ class LogListPage extends Component {
 }
 
 LogListPage.propType = {
-	logs: PropTypes.LogListPage
+	logs: PropTypes.object
 }
 
 function mapStateToProps(state) {

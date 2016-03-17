@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
+
 import DropDownMenu from './TopBarDropDownMenu'
 
 export default class Topbar extends Component{
@@ -8,13 +9,16 @@ export default class Topbar extends Component{
 	}
 
 	handleChangePassword(e){
-		alert('修改密码');
-		console.log('修改密码');
+		this.showTip();
+	}
+
+	showTip(){
+		//默认时长为 1.5s
+		message.warn('即将到来...');
 	}
 
 	handleSignOut(e){
-		alert('退出');
-		console.log('退出');
+		this.showTip();
 	}
 
 	render(){
@@ -29,10 +33,10 @@ export default class Topbar extends Component{
 				</div>
 
 				<div className={'topbar-info topbar-right topbar-clearfix'}>
-					<div className={'topbar-btn topbar-left border-left'}>
+					<div className={'topbar-btn topbar-left border-left'} onClick={this.showTip}>
 						<Icon type="search" /> 搜索
 					</div>
-					<div className={'topbar-btn topbar-left border-left'}>
+					<div className={'topbar-btn topbar-left border-left'} onClick={this.showTip}>
 						<Icon type="mobile" /> 手机版
 					</div>
 					{/*<div className={'topbar-btn topbar-left border-left'}>

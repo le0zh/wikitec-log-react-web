@@ -10,9 +10,7 @@ import * as actionCreators from '../actions'
 
 class App extends React.Component {
 
-	componentDidMount() {
-
-	}
+	componentDidMount() {}
 
 	render() {
 		return (
@@ -51,4 +49,6 @@ function mapDispatchToProps(dispatch) {
 //BUT:
 //不要这样做！这会导致每次 action 都触发整个 TodoApp 重新渲染，你做的所有性能优化都将付之东流。
 //最好在多个组件上使用 connect()，每个组件只监听它所关联的部分 state。
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+//export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+module.exports = App;

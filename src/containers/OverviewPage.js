@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 class OverivewPage extends Component {
 	render() {
 		return (
-			<h1>overview</h1>
+			<h2 className="page-title">概览</h2>
 		)
 	}
 }

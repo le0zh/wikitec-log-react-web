@@ -8,6 +8,7 @@
  */
 import React, { Component, PropTypes } from 'react'
 import { Table, Icon, Button, Tag } from 'antd'
+import { Link } from 'react-router'
 
 const columns = [{
 	title: '系统key',
@@ -25,8 +26,8 @@ const columns = [{
 	width: 80
 }, {
 	title: '操作',
-	render() {
-		return <a href="#">详细信息</a>;
+	render(text, record, index) {
+		return <Link to={`/logs/${record.systemAlias}/${record.id}`}>详细信息</Link>;
 	},
 	key: 'operation',
 	width: 80
@@ -37,12 +38,13 @@ const pagination = {
 	total: 0, //总的记录数
 	current: 1, //当前页码
 	showSizeChanger: false, //是否可以切换每页条数
-	// onShowSizeChange(current, pageSize) {
-	// 	console.log('Current: ', current, '; PageSize: ', pageSize);
-	// },
-	// onChange(current) {
-	// 	console.log('Current: ', current);
-	// }
+	showTotal: () => "共1000条"
+		// onShowSizeChange(current, pageSize) {
+		// 	console.log('Current: ', current, '; PageSize: ', pageSize);
+		// },
+		// onChange(current) {
+		// 	console.log('Current: ', current);
+		// }
 };
 
 export default class Loglist extends Component {
@@ -70,14 +72,22 @@ export default class Loglist extends Component {
 	render() {
 		const { logs } = this.props;
 		const { pagedResult } = logs;
+		const recordCount = pagedResult.recordCount;
 
-		pagination.total = pagedResult.recordCount;
+		pagination.total = recordCount;
 		pagination.current = pagedResult.pageIndex;
+
+		pagination.showTotal = (recordCount) => {
+			return `共 ${recordCount} 条`
+		}
 
 		return (
 			<div>
+				{/*<Tag color="red">今日异常: {pagedResult.todayCount}</Tag>
+				<Tag color="yellow">今日权限认证错误: {pagedResult.todayCount}</Tag>*/}
 				<Tag color="blue">今日: {pagedResult.todayCount}</Tag>
-				<Tag color="yellow">总数: {pagedResult.recordCount}</Tag>
+				<Tag color="green">总数: {pagedResult.recordCount}</Tag>
+
 				<Table
 					columns={columns}
 					rowKey={record => record.id}

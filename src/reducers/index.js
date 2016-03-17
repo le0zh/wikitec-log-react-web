@@ -1,12 +1,21 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 
-import { REQUEST_LOGS, RECEIVE_LOGS, SELECT_LOG } from '../actions'
+import { REQUEST_LOGS, RECEIVE_LOGS, REQUEST_LOG_DETAIL, RECEIVE_LOG_DETAIL } from '../actions'
 
-function selectedLog(state = {}, action) {
+function logDetail(state = { id: '', isFetching: false, log: {} }, action) {
 	switch (action.type) {
-		case SELECT_LOG:
-			return action.log;
+		case REQUEST_LOG_DETAIL:
+			return Object.assign({}, state, {
+				isFetching: true,
+				id: action.logId
+			});
+		case RECEIVE_LOG_DETAIL:
+			console.log('RECEIVE_LOG_DETAIL', action.logDetail);
+			return Object.assign({}, state, {
+				isFetching: false,
+				log: action.logDetail
+			});
 		default:
 			return state;
 	}
@@ -33,7 +42,7 @@ function logs(state = { subSystem: 'all', page: 1, isFetching: false, pagedResul
 
 const rootReducer = combineReducers({
 	logs,
-	selectedLog,
+	logDetail,
 	routing
 });
 
