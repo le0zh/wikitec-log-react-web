@@ -27,7 +27,11 @@ class LogDetailPage extends Component {
 
 	handleBackToList() {
 		const { subSystem } = this.props.params;
-		this.context.router.push(`/logs/${subSystem}`);
+
+		this.context.router.push({
+			pathname: `/logs/${subSystem}`,
+			state: { fromDetail: true } //使用此属性标识是来自详情的返回，保留日志列表的页码
+		});
 	}
 
 	render() {

@@ -28,7 +28,11 @@ class LogListPage extends Component {
 	}
 
 	componentWillMount() {
-		loadData(this.props);
+		if (this.props.location.state && this.props.location.state.fromDetail) {
+			loadData(this.props);
+		} else {
+			loadData(this.props, true);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {

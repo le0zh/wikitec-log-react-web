@@ -27,7 +27,4 @@ export const WIKI_SYS = [{
 }, {
 	name: '物资管理系统',
 	key: 'mms_tenants'
-}, {
-	name: '职业技能培训',
-	key: 'lms_tenants'
 }];

@@ -17,8 +17,7 @@ export default class SummaryBlock extends Component {
 	}
 
 	handleClick() {
-		//暂时不用跳转，因为左侧菜单同步更新存在问题.
-		this.context.router.push(`/logs/${this.props.summary.key}`)
+		this.context.router.push(`/logs/${this.props.summary.key}`);
 	}
 
 	render() {
