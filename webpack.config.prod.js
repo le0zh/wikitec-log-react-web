@@ -1,12 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: [
-        './src/entry/index'
+        './src/index'
     ],
     resolve: {
-        extensions: ["", ".js", ".jsx"]
+        extensions: ["", ".js", ".jsx", ".css"]
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -15,6 +16,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
+        new ExtractTextPlugin("css", "style.css"),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production')
@@ -31,6 +33,9 @@ module.exports = {
             test: /\.jsx?/,
             include: path.join(__dirname, 'src'),
             loader: 'babel'
+        }, {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
         }]
     }
 };

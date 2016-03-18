@@ -32,7 +32,6 @@ class LogDetailPage extends Component {
 
 	render() {
 		const { log, isFetching } = this.props;
-		console.log(log);
 		return (
 			<LogDetail isFetching={isFetching} log={log} backToList={this.handleBackToList}></LogDetail>
 		);
@@ -50,8 +49,6 @@ LogDetailPage.propTypes = {
 
 //将State中关于日志详情的部分注入到LogDetailPage的props
 function mapStateToProps(state) {
-	console.log('state', state);
-
 	const { log, isFetching } = state.logDetail;
 	return {
 		log: log,

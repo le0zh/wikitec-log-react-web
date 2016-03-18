@@ -24,8 +24,12 @@ export const RECEIVE_LOG_DETAIL = 'RECEIVE_LOG_DETAIL';
 /**
  * 概况相关action
  */
-export const REQUEST_SUMMARY = 'REQUEST_SUMMARY';
-export const RECEIVE_SUMMARY = 'RECEIVE_SUMMARY';
+export const REQUEST_SUMMARY_WIKI = 'REQUEST_SUMMARY_WIKI';
+export const RECEIVE_SUMMARY_WIKI = 'RECEIVE_SUMMARY_WIKI';
+export const REQUEST_SUMMARY_VCAN = 'REQUEST_SUMMARY_VCAN';
+export const RECEIVE_SUMMARY_VCAN = 'RECEIVE_SUMMARY_VCAN';
+export const REQUEST_TOP10_LOGS = 'REQUEST_TOP10_LOGS';
+export const RECEIVE_TOP10_LOGS = 'RECEIVE_TOP10_LOGS';
 
 /**
  * api跟路径
@@ -34,6 +38,61 @@ const API_BASE = 'http://42.96.171.42:9001/api';
 
 //overview api:
 //http://42.96.171.42:9001/api/log/summary/wiki
+//top10logs api:
+//http://42.96.171.42:9001/api/logs/top10
+
+/**
+ * top10日志
+ */
+function requestTop10Logs() {
+	return {
+		type: REQUEST_TOP10_LOGS
+	}
+}
+
+function receiveTop10Logs(json) {
+	return {
+		type: RECEIVE_TOP10_LOGS,
+		json
+	}
+}
+
+export function fetchTop10Logs() {
+	return dispatch => {
+		dispatch(requestTop10Logs());
+
+		return fetch(`${API_BASE}/logs/top10`)
+			.then(response => response.json())
+			.then(json => dispatch(receiveTop10Logs(json)))
+	}
+}
+
+/**
+ * 概览相关
+ */
+function requestSummary(key) {
+	return {
+		type: key === 'vcan' ? REQUEST_SUMMARY_VCAN : REQUEST_SUMMARY_WIKI,
+		key
+	}
+}
+
+function receiveSummary(key, json) {
+	return {
+		type: key === 'vcan' ? RECEIVE_SUMMARY_VCAN : RECEIVE_SUMMARY_WIKI,
+		json
+	}
+}
+
+export function fetchSummary(key) {
+	return dispatch => {
+		dispatch(requestSummary(key));
+
+		return fetch(`${API_BASE}/log/summary/${key}`)
+			.then(response => response.json())
+			.then(json => dispatch(receiveSummary(key, json)))
+	}
+}
 
 /**
  * 日志详情相关
@@ -53,7 +112,6 @@ function receiveLogDetail(logDetail) {
 }
 
 export function fetchLogDetail(logId) {
-	console.log('start fetch log detail:', logId);
 	return dispatch => {
 		//开始请求
 		dispatch(requestLogDetail(logId));

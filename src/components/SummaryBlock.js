@@ -10,17 +10,34 @@
 import React, { Component, PropTypes } from 'react'
 
 export default class SummaryBlock extends Component {
+	constructor() {
+		super();
+
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick() {
+		//暂时不用跳转，因为左侧菜单同步更新存在问题.
+		this.context.router.push(`/logs/${this.props.summary.key}`)
+	}
+
 	render() {
 		const { summary } = this.props;
 
 		return (
-			<div className="summary-block">
-				<h4>{summary.title}</h4>
-				<span className="summary-number">{`今日:${summary.todayCount}, 总数:${summary.totalCount}`}</span>
+			<div className="summary-block" onClick={this.handleClick}>
+				<h4>{summary.name}</h4>
+				<span className="summary-number">今日:
+					<span className="today">{summary.todayCount}</span>
+					{`, 总数:${summary.allCount}`}
+				</span>
 			</div>
 		);
 	}
 }
+SummaryBlock.contextTypes = {
+	router: React.PropTypes.object
+};
 
 SummaryBlock.propTypes = {
 	summary: PropTypes.object.isRequired

@@ -1,7 +1,69 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 
-import { REQUEST_LOGS, RECEIVE_LOGS, REQUEST_LOG_DETAIL, RECEIVE_LOG_DETAIL } from '../actions'
+import {
+	REQUEST_LOGS,
+	RECEIVE_LOGS,
+	REQUEST_LOG_DETAIL,
+	RECEIVE_LOG_DETAIL,
+	REQUEST_SUMMARY_WIKI,
+	RECEIVE_SUMMARY_WIKI,
+	REQUEST_SUMMARY_VCAN,
+	RECEIVE_SUMMARY_VCAN,
+	REQUEST_TOP10_LOGS,
+	RECEIVE_TOP10_LOGS
+} from '../actions'
+
+function top10Logs(state = { isFetching: false, logs: [] }, action) {
+	switch (action.type) {
+		case REQUEST_TOP10_LOGS:
+			return Object.assign({}, state, {
+				isFetching: true,
+				logs: []
+			});
+		case RECEIVE_TOP10_LOGS:
+			return Object.assign({}, state, {
+				isFetching: false,
+				logs: action.json
+			});
+		default:
+			return state;
+	}
+}
+
+function vcanSummary(state = { key: 'vcan', isFetching: true, summary: [] }, action) {
+	switch (action.type) {
+		case REQUEST_SUMMARY_VCAN:
+			return Object.assign({}, state, {
+				isFetching: true,
+				key: action.key
+			});
+		case RECEIVE_SUMMARY_VCAN:
+			return Object.assign({}, state, {
+				isFetching: false,
+				summary: action.json
+			});
+		default:
+			return state
+	}
+}
+
+function wikiSummary(state = { key: 'wiki', isFetching: true, summary: [] }, action) {
+	switch (action.type) {
+		case REQUEST_SUMMARY_WIKI:
+			return Object.assign({}, state, {
+				isFetching: true,
+				key: action.key
+			});
+		case RECEIVE_SUMMARY_WIKI:
+			return Object.assign({}, state, {
+				isFetching: false,
+				summary: action.json
+			});
+		default:
+			return state
+	}
+}
 
 function logDetail(state = { id: '', isFetching: false, log: {} }, action) {
 	switch (action.type) {
@@ -11,7 +73,6 @@ function logDetail(state = { id: '', isFetching: false, log: {} }, action) {
 				id: action.logId
 			});
 		case RECEIVE_LOG_DETAIL:
-			console.log('RECEIVE_LOG_DETAIL', action.logDetail);
 			return Object.assign({}, state, {
 				isFetching: false,
 				log: action.logDetail
@@ -43,6 +104,9 @@ function logs(state = { subSystem: 'all', page: 1, isFetching: false, pagedResul
 const rootReducer = combineReducers({
 	logs,
 	logDetail,
+	vcanSummary,
+	wikiSummary,
+	top10Logs,
 	routing
 });
 

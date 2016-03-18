@@ -265,10 +265,28 @@ li.topbar-info-btn {
     border: 1px solid #e7f6e1;
     border-radius: 6px;
     background: #f3faf0;
-    padding:10px;    
+    padding:10px;  
+    float: left; 
+    margin-right: 15px;
+    //cursor: pointer;
+}
+
+.summary-block:hover{
+    /*zoom: 1.2;*/
+    border: 1px solid #fdc;
+    cursor: pointer;
 }
 
 .summary-number{
     font-size:14px;
     line-height: 30px;
+}
+
+.summary-number .today{
+    color: #f50;
+    font-weight: bold;
+}
+
+.clearfix{
+    clear: both;
 }

@@ -13,11 +13,13 @@ class App extends React.Component {
 	componentDidMount() {}
 
 	render() {
+		const { routing } = this.props;
+
 		return (
 			<div>
 				<Topbar />
 				<div className={'viewFramework-body'}>
-					<SiderMenu styleName={'viewFramework-sidebar'} />
+					<SiderMenu routing={routing.locationBeforeTransitions} styleName={'viewFramework-sidebar'} />
 					
 					<div className={'viewFramework-product'}>
 						<div className={'viewFramework-product-body'}>
@@ -38,7 +40,9 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-	return state;
+	return {
+		routing: state.routing
+	}
 }
 
 function mapDispatchToProps(dispatch) {
@@ -49,6 +53,4 @@ function mapDispatchToProps(dispatch) {
 //BUT:
 //不要这样做！这会导致每次 action 都触发整个 TodoApp 重新渲染，你做的所有性能优化都将付之东流。
 //最好在多个组件上使用 connect()，每个组件只监听它所关联的部分 state。
-//export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-module.exports = App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

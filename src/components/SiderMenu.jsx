@@ -49,6 +49,18 @@ export default class SiderMenu extends Component{
 		};
 	}
 
+	componentWillReceiveProps(nextProp){
+		if(nextProp.routing.path !== this.props.routing.pathname){
+			//如果路径更新了，重新检查激活状态
+			var {current, openKeys} = checkActive(this.context.router);
+			this.setState({
+				current: current,
+				theme: 'light',
+				openKeys: openKeys
+			});
+		}
+	}
+
 	componentDidMount(){
 		var {current, openKeys} = checkActive(this.context.router);
 		this.setState({

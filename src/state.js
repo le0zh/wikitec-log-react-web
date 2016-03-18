@@ -24,8 +24,29 @@ const logDetail = {
 	log: {}
 }
 
+//概况信息
+const vcanSummary = {
+	key: 'vcan',
+	isFetching: true,
+	summary: []
+}
+const wikiSummary = {
+	key: 'wiki',
+	isFetching: true,
+	summary: []
+}
+
+//top10Logs
+const top10Logs = {
+	isFetching: false,
+	logs: []
+}
+
 //APP state
 const state = {
-	logDetail: logDetail,
-	logs: logs
+	logDetail,
+	logs,
+	vcanSummary,
+	wikiSummary,
+	top10Logs
 };
