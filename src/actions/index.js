@@ -35,6 +35,7 @@ export const RECEIVE_TOP10_LOGS = 'RECEIVE_TOP10_LOGS';
  * api跟路径
  */
 const API_BASE = 'http://42.96.171.42:9001/api';
+//const API_BASE = 'http://127.0.0.1:3001/api';
 
 //overview api:
 //http://42.96.171.42:9001/api/log/summary/wiki
