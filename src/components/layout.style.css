@@ -290,3 +290,11 @@ li.topbar-info-btn {
 .clearfix{
     clear: both;
 }
+
+.login-container{
+    height: 200px;
+    width: 550px;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}

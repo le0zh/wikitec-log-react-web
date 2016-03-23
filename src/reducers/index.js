@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
+import auth from './auth'
 
 import {
 	REQUEST_LOGS,
@@ -107,6 +108,7 @@ const rootReducer = combineReducers({
 	vcanSummary,
 	wikiSummary,
 	top10Logs,
+	auth,
 	routing
 });
 

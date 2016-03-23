@@ -48,5 +48,12 @@ const state = {
 	logs,
 	vcanSummary,
 	wikiSummary,
-	top10Logs
+	top10Logs,
+	routing: {
+		locationBeforeTransitions: {
+			pathname,
+			query,
+			search
+		}
+	}
 };
