@@ -10,15 +10,24 @@ import * as actionCreators from '../actions'
 import OverviewPage from './OverviewPage'
 
 class DashboardPage extends React.Component {
+	constructor() {
+		super();
+
+		this.signOut = this.signOut.bind(this);
+	}
 
 	componentDidMount() {}
 
+	signOut() {
+		this.props.actions.logoutAndRedirect();
+	}
+
 	render() {
-		const { routing } = this.props;
+		const { routing, userName } = this.props;
 
 		return (
 			<div>
-				<Topbar />
+				<Topbar userName={userName}  handleSignOut={this.signOut} />
 				<div className={'viewFramework-body'}>
 					<SiderMenu routing={routing.locationBeforeTransitions} styleName={'viewFramework-sidebar'} />
 					
@@ -37,12 +46,14 @@ class DashboardPage extends React.Component {
 
 DashboardPage.propTypes = {
 	// Injected by React Router
-	children: PropTypes.node
+	children: PropTypes.node,
+	actions: PropTypes.object
 }
 
 function mapStateToProps(state) {
 	return {
-		routing: state.routing
+		routing: state.routing,
+		userName: state.auth.userName
 	}
 }
 

@@ -57,7 +57,7 @@ const API_BASE = 'http://127.0.0.1:3001/api';
 /**
  * 用户相关
  */
-function loginUserSuccess(token) {
+export function loginUserSuccess(token) {
 	localStorage.setItem('token', token);
 	return {
 		type: LOGIN_USER_SUCCESS,
@@ -94,11 +94,10 @@ export function loginUser(email, password, redirect = '/') {
 				method: 'post',
 				mode: 'cors',
 				headers: {
-					//'Accept': 'application/json',
+					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ email: email, password: password })
-					//body: { "email": "xinliang.zhu@wikitec.com.cn", "password": "aaa" }
 			})
 			.then(checkHttpStatus)
 			.then(parseJSON)
@@ -110,8 +109,8 @@ export function loginUser(email, password, redirect = '/') {
 				browserHistory.push(redirect);
 			})
 			.catch(error => {
-				console.log(error);
-				dispatch(loginUserFailure(error));
+				console.log(error.message);
+				dispatch(loginUserFailure(error.message));
 			});
 	}
 }

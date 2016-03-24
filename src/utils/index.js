@@ -1,17 +1,18 @@
 export function checkHttpStatus(response) {
-	console.log('checkHttpStatus  ', response);
 	if (response.status >= 200 && response.status < 300) {
-		return response
+		return response;
 	} else {
 		console.log('error:', response.statusText);
 
-		var error = new Error(response.statusText)
-		error.response = response
-		throw error
+		return response.json().then(json => {
+			console.log(json);
+			var error = new Error(json.message);
+			error.response = response;
+			throw error;
+		});
 	}
 }
 
 export function parseJSON(response) {
 	return response.json();
-	//throw new Error('返回值非json格式');
 }

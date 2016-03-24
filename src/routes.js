@@ -5,7 +5,7 @@
 import React from 'react'
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 
-import AuthenticatedComponent from './containers/AuthenticatedComponent'
+import { requireAuthentication } from './containers/AuthenticatedComponent'
 import App from './containers/App'
 import DashboardPage from './containers/DashboardPage'
 import OverviewPage from './containers/OverviewPage'
@@ -25,8 +25,8 @@ class Logs extends React.Component {
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={DashboardPage}/>
-    <Route path="logs" component={DashboardPage}>
+    <IndexRoute component={requireAuthentication(DashboardPage)}/>
+    <Route path="logs" component={requireAuthentication(DashboardPage)}>
       <IndexRoute component={OverviewPage}/>
       <Route path=":subSystem" component={Logs}>
         <IndexRoute component={LoglistPage}/>

@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
  * 组装需要登录验证的子组件
  */
 export function requireAuthentication(Component) {
-	class AuthenticatedComponent extends Reqct.Component {
+	class AuthenticatedComponent extends React.Component {
 		componentWillMount() {
 			this.checkAuth(this.props.isAuthenticated);
 		}

@@ -18,9 +18,10 @@ export default function auth(state = initialState, action) {
 				statusText: null
 			});
 		case LOGIN_USER_SUCCESS:
+			console.log(action.token);
 			return Object.assign({}, state, {
 				token: action.token,
-				userName: jwtDecode(action.token.name),
+				userName: jwtDecode(action.token).name,
 				isAuthenticated: true,
 				isAuthenticating: false,
 				statusText: '登录成功'

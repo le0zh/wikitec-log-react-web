@@ -18,7 +18,7 @@ export default class Topbar extends Component{
 	}
 
 	handleSignOut(e){
-		this.showTip();
+		this.props.handleSignOut();
 	}
 
 	render(){
@@ -47,7 +47,7 @@ export default class Topbar extends Component{
 						</DropDownMenu>
 					</div>*/}
 					<div className={'topbar-btn topbar-left border-left'}>
-						<DropDownMenu title={<span>admin@wikitec.com</span>}>
+						<DropDownMenu title={<span>{this.props.userName}</span>}>
 							<DropDownMenu.Item title={'修改密码'} onClick={(e)=>this.handleChangePassword(e)} />
 							<DropDownMenu.Item title={'退出'} onClick={(e)=>this.handleSignOut(e)} />
 						</DropDownMenu>
@@ -56,4 +56,9 @@ export default class Topbar extends Component{
 			</div>
 		);
 	}
+}
+
+Topbar.propTypes = {
+	handleSignOut: PropTypes.func.isRequired,
+	userName: PropTypes.string.isRequired
 }

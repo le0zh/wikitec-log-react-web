@@ -62,27 +62,31 @@ class LoginPage extends Component {
 			],
 		});
 
+		const loginForm = (<Form inline form={this.props.form} onSubmit={this.handleSubmit}>
+      <FormItem
+      	hasFeedback
+        label="账户："
+   			>
+        <Input type="email" placeholder="公司电子邮箱地址"
+        	{...emailProps}
+        	/>
+      </FormItem>
+      <FormItem
+      	hasFeedback
+        label="密码："
+        >
+        <Input type="password" placeholder="默认为123456"
+          {...passwdProps} />
+      </FormItem>
+      <Button type="primary" htmlType="submit">登录</Button>
+  	</Form>);
 		return (
 			<div className="login-container">
-				<h1>天益明康 日志系统</h1>
-				<Form inline form={this.props.form} onSubmit={this.handleSubmit} style={{marginTop:20}}>
-	        <FormItem
-	        	hasFeedback
-	          label="账户："
-	     			>
-	          <Input type="email" placeholder="公司电子邮箱地址"
-	          	{...emailProps}
-	          	/>
-	        </FormItem>
-	        <FormItem
-	        	hasFeedback
-	          label="密码："
-	          >
-	          <Input type="password" placeholder="默认为123456"
-	            {...passwdProps} />
-	        </FormItem>
-	        <Button type="primary" htmlType="submit">登录</Button>
-      	</Form>
+				<h1 style={{marginBottom:20}}>天益明康 日志系统</h1>
+				
+				{this.props.isAuthenticated 
+					? <h3>{this.props.userName} 您已经成功登陆 </h3>
+					: loginForm }
 
       	{this.props.statusText 
       			? <div style={{marginTop: 20, width:'90%'}}><Alert message={this.props.statusText} type="error" /></div>
