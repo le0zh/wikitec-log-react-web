@@ -35,9 +35,14 @@ class LogDetailPage extends Component {
 	}
 
 	render() {
-		const { log, isFetching } = this.props;
+		const { log, isFetching, actions, userName } = this.props;
 		return (
-			<LogDetail isFetching={isFetching} log={log} backToList={this.handleBackToList}></LogDetail>
+			<LogDetail isFetching={isFetching} 
+				log={log}
+				userName = {userName}
+				handleAddComment ={actions.startAddLogComment}
+				handleStatusChange={actions.startSetLogStatus}
+				backToList={this.handleBackToList}></LogDetail>
 		);
 	}
 }
@@ -56,7 +61,8 @@ function mapStateToProps(state) {
 	const { log, isFetching } = state.logDetail;
 	return {
 		log: log,
-		isFetching: isFetching
+		isFetching: isFetching,
+		userName: state.auth.userName
 	}
 }
 

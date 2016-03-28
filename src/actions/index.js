@@ -23,6 +23,8 @@ export const RECEIVE_LOGS = 'RECEIVE_LOGS';
  */
 export const REQUEST_LOG_DETAIL = 'REQUEST_LOG_DETAIL';
 export const RECEIVE_LOG_DETAIL = 'RECEIVE_LOG_DETAIL';
+export const SET_LOG_STATUS = 'SET_LOG_STATUS';
+export const ADD_LOG_COMMENT = 'ADD_LOG_COMMENT';
 
 /**
  * 概况相关action
@@ -204,6 +206,66 @@ export function fetchLogDetail(logId) {
 			.then(json => dispatch(receiveLogDetail(json)))
 	}
 }
+
+function setLogStatus(newStatus, history) {
+	return {
+		type: SET_LOG_STATUS,
+		newStatus: newStatus,
+		history: history
+	}
+}
+
+export function startSetLogStatus(logId, newStatus, userName) {
+	return dispatch => {
+		return fetch(`${API_BASE}/log/status/${logId}`, {
+				method: 'post',
+				mode: 'cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ newStatus: newStatus, userName: userName })
+			})
+			.then(checkHttpStatus)
+			.then(parseJSON)
+			.then(json => {
+				dispatch(setLogStatus(newStatus, json.history));
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+}
+
+function addLogComment(comment, history) {
+	return {
+		type: ADD_LOG_COMMENT,
+		history: history
+	}
+}
+
+export function startAddLogComment(logId, comment, userName) {
+	return dispatch => {
+		return fetch(`${API_BASE}/log/comment/${logId}`, {
+				method: 'post',
+				mode: 'cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ comment: comment, userName: userName })
+			})
+			.then(checkHttpStatus)
+			.then(parseJSON)
+			.then(json => {
+				dispatch(addLogComment(comment, json.history));
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+}
+
 
 /**
  * 日志列表相关

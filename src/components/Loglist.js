@@ -9,6 +9,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Table, Icon, Button, Tag } from 'antd'
 import { Link } from 'react-router'
+import { LOG_STATUS } from '../common/constants'
 
 const columns = [{
 	title: '系统key',
@@ -24,6 +25,19 @@ const columns = [{
 	dataIndex: 'time',
 	key: 'time',
 	width: 80
+}, {
+	title: '状态',
+	render(text, record, index) {
+		var statusItem;
+		LOG_STATUS.forEach(item => {
+			if (item.key === record.status) {
+				statusItem = item;
+			}
+		});
+		return <Tag color={statusItem.color}>{statusItem.name}</Tag>
+	},
+	key: 'status',
+	width: 90
 }, {
 	title: '操作',
 	render(text, record, index) {

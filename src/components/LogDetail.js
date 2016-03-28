@@ -9,7 +9,12 @@
 
 import React, { Component, PropTypes } from 'react'
 import JSONTree from 'react-json-tree'
-import { Alert, Button, Icon, Spin, Row, Col } from 'antd'
+import { Form, Input, Affix, Alert, Button, Icon, Spin, Row, Col, Timeline, Select, Modal } from 'antd'
+
+import { LOG_STATUS } from '../common/constants'
+
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 // json-tree的显示样式
 const theme = {
@@ -33,20 +38,60 @@ const theme = {
 	base0F: '#cc6633'
 };
 
-export default class LogDetail extends Component {
+class LogDetail extends Component {
 	constructor() {
 		super();
+
+		this.state = {
+			commentModalVisible: false
+		};
+
+		this.showCommentModal = this.showCommentModal.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
+		this.onStatusChanged = this.onStatusChanged.bind(this);
+		this.handleAddComment = this.handleAddComment.bind(this);
+	}
+
+	showCommentModal() {
+		this.props.form.resetFields();
+		this.setState({
+			commentModalVisible: true
+		})
+	}
+
+	handleAddComment() {
+		this.props.form.validateFields((errors, values) => {
+			if (!!errors) {
+				console.log('Errors in form!!!');
+				return;
+			}
+			console.log('Submit!!!');
+			console.log(values);
+			const { log, handleAddComment, userName } = this.props;
+			handleAddComment(log._id, values.comment, userName);
+			this.setState({
+				commentModalVisible: false
+			});
+		});
+	}
+
+	handleCancel() {
+		this.setState({
+			commentModalVisible: false
+		})
+	}
+
+	onStatusChanged(value, label) {
+		const { log, handleStatusChange, userName } = this.props;
+		handleStatusChange(log._id, value, userName);
 	}
 
 	render() {
-		const {
-			log,
-			isFetching
-		} = this.props;
+		const { log, isFetching, form } = this.props;
 
 		let logMessage = {};
+
 		if (log.message) {
-			//
 			logMessage = JSON.stringify(log.message);
 		}
 
@@ -59,17 +104,36 @@ export default class LogDetail extends Component {
 			return logMessages.map((item, index) => <span style={{lineHeight: 1.8, display:'block'}} key={index}>{item}</span>);
 		};
 
+		const commentProps = form.getFieldProps('comment', {
+			rules: [
+				{ required: true, message: '请填写内容' }
+			]
+		});
+
+		// 为了兼容旧的字符串类型日志信息
+		if (typeof(log.message) === 'string') {
+			log.message = { Exception: log.message }
+		}
+
 		return (
 			<div>
 				<h2 className="page-title">日志详情
 					<Button size="small" type="primary" onClick={this.props.backToList} style={{marginLeft:10}}>
 						<Icon type="rollback" />返回列表
 					</Button>
+
+					<Button size="small" type="primary" style={{ marginLeft:10 }} onClick={this.showCommentModal}>
+						<Icon type="message" /> 添加评论
+					</Button>
+
+					<Select value={log.status || 'init'} style={{ width: 120, marginLeft:10 }} onChange={this.onStatusChanged}>
+						{LOG_STATUS.map(item=> <Option key={item.key} value={item.key}>{item.name}</Option>)}
+					</Select>
 				</h2>
 				<Spin spining={isFetching}>
 					<Row type="flex" justify="start">
 						<Col span="4"><h3 className="item-title">系统: {log.systemAlias}</h3></Col>
-						<Col span="8"><h3 className="item-title">时间: {log.time}</h3></Col>
+						<Col span="8"><h3 className="item-title">时间: {log.time} </h3></Col>
 					</Row>
 
 					<h3 className="item-title" style={{marginTop:15}}>异常信息:</h3>
@@ -83,7 +147,36 @@ export default class LogDetail extends Component {
 					<div style={{ fontSize:15 }}>
 						<JSONTree hideRoot={true} data={log.forms || {'message': '没有表单信息'}} />
 					</div>
+
+					<h3 className="item-title" style={{marginTop:15}}>处理记录:</h3>
+					{log.history 
+						?
+							<Timeline>
+								{
+									log.history.map((item, index)=> 
+										<Timeline.Item key={index} color={item.comment ? 'blue' : 'green'}>
+											{item.time}@{item.user} {item.message}
+											{item.comment ?  <Alert message={item.comment} type="info" /> : null}
+										</Timeline.Item>)
+								}
+							</Timeline>
+						:
+							<p style={{marginLeft: 10}}>没有记录</p>}
 				</Spin>
+
+				<Modal width={600} title="添加评论" visible={this.state.commentModalVisible}
+					maskClosable={false}
+					okText={'提交'}
+					onOk ={this.handleAddComment}
+          onCancel={this.handleCancel}>
+          <Form form={this.props.form}>
+						<FormItem
+							hasFeedback
+							>
+							<Input {...commentProps} type="textarea" rows="3" />
+						</FormItem>
+          </Form>
+        </Modal>
 			</div>
 		)
 	}
@@ -92,5 +185,9 @@ export default class LogDetail extends Component {
 LogDetail.propTypes = {
 	backToList: PropTypes.func.isRequired,
 	log: PropTypes.object.isRequired,
-	isFetching: PropTypes.bool.isRequired
+	isFetching: PropTypes.bool.isRequired,
+	handleStatusChange: PropTypes.func.isRequired,
+	handleAddComment: PropTypes.func.isRequired
 }
+
+module.exports = Form.create()(LogDetail);

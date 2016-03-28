@@ -7,6 +7,8 @@ import {
 	RECEIVE_LOGS,
 	REQUEST_LOG_DETAIL,
 	RECEIVE_LOG_DETAIL,
+	SET_LOG_STATUS,
+	ADD_LOG_COMMENT,
 	REQUEST_SUMMARY_WIKI,
 	RECEIVE_SUMMARY_WIKI,
 	REQUEST_SUMMARY_VCAN,
@@ -77,6 +79,19 @@ function logDetail(state = { id: '', isFetching: false, log: {} }, action) {
 			return Object.assign({}, state, {
 				isFetching: false,
 				log: action.logDetail
+			});
+		case SET_LOG_STATUS:
+			return Object.assign({}, state, {
+				log: Object.assign({}, state.log, {
+					status: action.newStatus,
+					history: action.history
+				})
+			});
+		case ADD_LOG_COMMENT:
+			return Object.assign({}, state, {
+				log: Object.assign({}, state.log, {
+					history: action.history
+				})
 			});
 		default:
 			return state;

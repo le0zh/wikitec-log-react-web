@@ -28,3 +28,25 @@ export const WIKI_SYS = [{
 	name: '物资管理系统',
 	key: 'mms_tenants'
 }];
+
+export const LOG_STATUS = [{
+	key: 'init',
+	name: '初始',
+	color: ''
+}, {
+	key: 'exception',
+	name: '异常',
+	color: 'red'
+}, {
+	key: 'fixing',
+	name: '修复中',
+	color: 'blue'
+}, {
+	key: 'ignore',
+	name: '忽略',
+	color: 'yellow'
+}, {
+	key: 'fixed',
+	name: '已修复',
+	color: 'green'
+}];
